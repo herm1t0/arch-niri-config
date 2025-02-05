@@ -2,8 +2,6 @@
 
 # Linux post-installation setup
 
-# Right now it only works with arch64 and nvidia GPU!
-
 #################################################
 # Packages to install.
 #################################################
@@ -38,15 +36,15 @@ AUR_PACKAGES=(
 
 CWD="${PWD}" # Save cloned directory
 
-for pack in ${PACMAN_PACKAGES[@]}; do
-    pacman -Suy --noconfirm --needed --quiet $pack
-done
+install_pacman_packages()
+{
+    for pack in ${PACMAN_PACKAGES[@]}; do
+        pacman -Suy --noconfirm --needed --quiet $pack
+    done
+}
 
-# Install yay
-read -p "Install AUR helper? (yay) (Y/N): " user_input
-
-if [[ $user_input == "y" || $user_input == "Y" ]] 
-then
+install_yay()
+{
     cd ~
     git clone https://aur.archlinux.org/yay.git
     cd yay
@@ -56,41 +54,36 @@ then
     for pack in ${AUR_PACKAGES[@]}; do
         -u $SUDO_USER yay -S --noconfirm --needed --quiet $pack
     done
-else
-    echo "yay and AUR packages won't be installed"
-fi
+}
 
-# Enable tty autologin
-read -p "Enable tty autologin for the current user? (Y/N): " user_input
+enable_autologin() # TODO - REMAKE WITH CURL OR WGET
+{
+    cd /
+    local getty_path="etc/systemd/system/getty@tty1.service.d"
+    cp $getty_path/override.conf /$getty_path/
+    sed -i "s/username/$SUDO_USER/" /$getty_path/override.conf
+    echo "Autologin is enabled"
+}
 
-if [[ $user_input == "y" || $user_input == "Y" ]] 
-then
-cd $CWD # Back to the main directory
-getty_path="etc/systemd/system/getty@tty1.service.d"
-cp $getty_path/override.conf /$getty_path/
-sed -i "s/username/$SUDO_USER/" /$getty_path/override.conf
-echo "Autologin is enabled"
-fi
+enable_hyprland_autostart() # TODO - REMAKE!
+{
+    cp .zprofile ~/
+}
 
-# Enable hyprland autostart
-read -p "Launch hyprland on startup? (Y/N): " user_input
+install_outline_CLI()
+{
+    cd ~
+    git clone https://github.com/Kir-Antipov/outline-cli
+    cd outline-cli
+    ./install.sh -y
+    cd ..
+    rm -rf outline-cli
+}
 
-if [[ $user_input == "y" || $user_input == "Y" ]] 
-then
-cp .zprofile ~/
-fi
+main()
+{
 
-# Install outline VPN
-read -p "Install Outline CLI? (Y/N): " user_input
+    echo "All done"
+}
 
-if [[ $user_input == "y" || $user_input == "Y" ]] 
-then
-cd ~
-git clone https://github.com/Kir-Antipov/outline-cli
-cd outline-cli
-./install.sh -y
-cd ..
-rm -rf outline-cli
-fi
-
-echo "All done :)"
+main

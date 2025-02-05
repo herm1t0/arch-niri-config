@@ -13,29 +13,27 @@ repo_url="https://github.com/herm1t0/arch-hyprland-setup"
 SHELL="zsh"
 WAYLAND_COMPOSITOR="hyprland"
 CLI_TEXT_EDITOR="micro"
-
 FONTS="ttf-noto-nerd ttf-jetbrains-mono-nerd ttf-nerd-fonts-symbols"
 GPU_DRIVER_PACKAGES="nvidia-open-dkms nvidia-utils"
 TERMINAL_EMULATOR="alacritty"
 BROWSER="firefox"
 APP_LAUNCHER="fuzzel"
 FILE_MANAGER="nemo"
-SOUND_MIXER="pavucontrol"
-MISC_PACKAGES="dconf-editor font-manager git linux-headers polkit uwsm"
+MISC_PACKAGES="dconf-editor font-manager git linux-headers polkit uwsm file-roller pavucontrol "
+MISC_PACKAGES+="xdg-desktop-portal-hyprland xdg-desktop-portal-gtk hyprpolkitagent qt5-wayland qt6-wayland hyprland-qt-support "
 
 #AUR_PACKAGES
 GUI_TEXT_EDITOR="visual-studio-code-bin"
-AUR_PACKAGES=""
+AUR_MISC_PACKAGES=""
 
 
 PACMAN_PACKAGES=(
-    
-
+    $SHELL $WAYLAND_COMPOSITOR $CLI_TEXT_EDITOR $FONTS $GPU_DRIVER_PACKAGES $TERMINAL_EMULATOR
+	$BROWSER $APP_LAUNCHER $FILE_MANAGER $MISC_PACKAGES
 )
 
 AUR_PACKAGES=(
-    
-
+    $GUI_TEXT_EDITOR $AUR_MISC_PACKAGES
 )
 
 install_pacman_packages()
@@ -94,6 +92,8 @@ post_install_configuration()
 {
 	enable_autologin
 	enable_hyprland_autostart
+	
+	systemctl --user enable --now hyprpolkitagent.service
 }
 
 main()

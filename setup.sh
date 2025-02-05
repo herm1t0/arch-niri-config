@@ -92,6 +92,8 @@ post_install_configuration()
 	enable_autologin
 	enable_hyprland_autostart
 	
+	curl -Ls $repo_url/blob/main/config/hypr/hyprland.conf?raw=true -o ~/.config/hypr/hyprland.conf
+	
 	systemctl --user enable --now hyprpolkitagent.service
 }
 

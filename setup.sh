@@ -2,6 +2,10 @@
 
 # Linux post-installation setup
 
+repo_url="https://github.com/herm1t0/arch-hyprland-setup"
+
+
+
 #################################################
 # Packages to install.
 #################################################
@@ -17,11 +21,11 @@ BROWSER="firefox"
 APP_LAUNCHER="fuzzel"
 FILE_MANAGER="nemo"
 SOUND_MIXER="pavucontrol"
-MISC_PACKAGES="dconf-editor font-manager git linux-headers polkit"
+MISC_PACKAGES="dconf-editor font-manager git linux-headers polkit uwsm"
 
 #AUR_PACKAGES
 GUI_TEXT_EDITOR="visual-studio-code-bin"
-AUR_PACKAGES="uwsm"
+AUR_PACKAGES=""
 
 
 PACMAN_PACKAGES=(
@@ -30,14 +34,13 @@ PACMAN_PACKAGES=(
 )
 
 AUR_PACKAGES=(
-
+    
 
 )
 
-CWD="${PWD}" # Save cloned directory
-
 install_pacman_packages()
 {
+    echo "Now installing pacman packages..."
     for pack in ${PACMAN_PACKAGES[@]}; do
         pacman -Suy --noconfirm --needed --quiet $pack
     done
@@ -45,6 +48,7 @@ install_pacman_packages()
 
 install_yay()
 {
+	echo "Now installing yay..."
     cd ~
     git clone https://aur.archlinux.org/yay.git
     cd yay
@@ -56,33 +60,49 @@ install_yay()
     done
 }
 
-enable_autologin() # TODO - REMAKE WITH CURL OR WGET
+install_aur_packages()
 {
-    cd /
-    local getty_path="etc/systemd/system/getty@tty1.service.d"
-    cp $getty_path/override.conf /$getty_path/
-    sed -i "s/username/$SUDO_USER/" /$getty_path/override.conf
+	install_yay
+	
+	echo "Now installing aur packages..."
+    for pack in ${AUR_PACKAGES[@]}; do
+        -u $SUDO_USER yay -S --noconfirm --needed --quiet $pack
+    done
+}
+
+enable_autologin()
+{
+    local getty_path="/etc/systemd/system/getty@tty1.service.d"
+	curl -Ls $repo_url/blob/main$getty_path/override.conf?raw=true -o $getty_path/override.conf
+    sed -i "s/username/$SUDO_USER/" $getty_path/override.conf
     echo "Autologin is enabled"
 }
 
-enable_hyprland_autostart() # TODO - REMAKE!
+enable_hyprland_autostart()
 {
-    cp .zprofile ~/
+	curl -Ls $repo_url/blob/main/.zprofile?raw=true -o ~/.zprofile
+	echo "Hyprland autostart is enabled"
 }
 
 install_outline_CLI()
 {
-    cd ~
-    git clone https://github.com/Kir-Antipov/outline-cli
-    cd outline-cli
-    ./install.sh -y
-    cd ..
-    rm -rf outline-cli
+	echo "Now installing outline vpn..."
+    curl -Ls https://github.com/Kir-Antipov/outline-cli/blob/master/install.sh?raw=true | sudo bash -s -- -y
+}
+
+post_install_configuration()
+{
+	enable_autologin
+	enable_hyprland_autostart
 }
 
 main()
 {
-
+    install_pacman_packages
+	install_aur_packages
+	install_outline_CLI
+	post_install_configuration
+	
     echo "All done"
 }
 

@@ -19,8 +19,7 @@ TERMINAL_EMULATOR="alacritty"
 BROWSER="firefox"
 APP_LAUNCHER="fuzzel"
 FILE_MANAGER="nemo"
-MISC_PACKAGES="dconf-editor font-manager git linux-headers polkit uwsm file-roller pavucontrol "
-MISC_PACKAGES+="xdg-desktop-portal-hyprland xdg-desktop-portal-gtk hyprpolkitagent qt5-wayland qt6-wayland hyprland-qt-support "
+MISC_PACKAGES="dconf-editor font-manager git linux-headers polkit uwsm file-roller pavucontrol xdg-desktop-portal-hyprlandxdg-desktop-portal-gtk hyprpolkitagent qt5-wayland qt6-wayland hyprland-qt-support"
 
 #AUR_PACKAGES
 GUI_TEXT_EDITOR="visual-studio-code-bin"

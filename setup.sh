@@ -49,7 +49,7 @@ install_yay()
  	cd ~
   	git clone https://aur.archlinux.org/yay.git
    	cd yay
-	-u $SUDO_USER makepkg -sir
+	-u $SUDO_USER makepkg -sir --needed --noconfirm
 	cd ..
 	rm -rf yay/
 	for pack in ${AUR_PACKAGES[@]}; do

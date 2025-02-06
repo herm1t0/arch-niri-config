@@ -46,15 +46,15 @@ install_pacman_packages()
 install_yay()
 {
 	echo "Now installing yay..."
-    cd ~
-    git clone https://aur.archlinux.org/yay.git
-    cd yay
-    -u $SUDO_USER makepkg -sir
-    cd ..
-    rm -rf yay/
-    for pack in ${AUR_PACKAGES[@]}; do
-        -u $SUDO_USER yay -S --noconfirm --needed --quiet $pack
-    done
+ 	cd ~
+  	git clone https://aur.archlinux.org/yay.git
+   	cd yay
+	-u $SUDO_USER makepkg -sir
+	cd ..
+	rm -rf yay/
+	for pack in ${AUR_PACKAGES[@]}; do
+		-u $SUDO_USER yay -S --noconfirm --needed --quiet $pack
+	done
 }
 
 install_aur_packages()
@@ -63,7 +63,7 @@ install_aur_packages()
 	
 	echo "Now installing aur packages..."
     for pack in ${AUR_PACKAGES[@]}; do
-        -u $SUDO_USER yay -S --noconfirm --needed --quiet $pack
+		-u $SUDO_USER yay -S --noconfirm --needed --quiet $pack
     done
 }
 

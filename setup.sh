@@ -84,15 +84,16 @@ enable_hyprland_autostart()
 install_outline_CLI()
 {
 	echo "Now installing outline vpn..."
-    curl -Ls https://github.com/Kir-Antipov/outline-cli/blob/master/install.sh?raw=true | sudo bash -s -- -y
+	curl -Ls https://github.com/Kir-Antipov/outline-cli/blob/master/install.sh?raw=true | sudo bash -s -- -y
 }
 
 post_install_configuration()
 {
 	enable_autologin
 	enable_hyprland_autostart
-	
-	curl -Ls $repo_url/blob/main/config/hypr/hyprland.conf?raw=true -o ~/.config/hypr/hyprland.conf
+
+    # Copy up-to-date configs from the repo
+	curl -Ls $repo_url/blob/main/config/hypr/hyprland.conf?raw=true -o ~/.config/hypr/hyprland.conf # Hyprland
 	
 	systemctl --user enable --now hyprpolkitagent.service
 }

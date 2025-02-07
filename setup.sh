@@ -59,7 +59,7 @@ install_yay()
 
 install_aur_packages()
 {
-	install_yay
+    install_yay
 	
 	echo "Now installing aur packages..."
     for pack in ${AUR_PACKAGES[@]}; do

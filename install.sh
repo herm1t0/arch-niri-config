@@ -20,7 +20,4 @@ install_pacman_packages
 install_aur_packages
 install_configs
 
-enable_autologin
-enable_niri_autostart
-
-echo "All done"
+echo "Jobs done"

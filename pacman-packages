@@ -11,18 +11,19 @@ PACMAN_PACKAGES=(
     #Fonts
     ttf-jetbrains-mono-nerd
     ttf-nerd-fonts-symbols
+    noto-fonts
     
     #Nvidia drivers
     linux-headers
     nvidia-open-dkms
     nvidia-utils
-    
-    #Wayland compositor
-    niri
-    
+
     #Wayland utils
     uwsm
     xdg-desktop-portal-gtk
+    
+    #Wayland compositor
+    niri
     
     #Desktop apps
     nemo

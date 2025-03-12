@@ -1,0 +1,33 @@
+PACMAN_PACKAGES=(
+    #Shell
+    zsh
+    
+    #CLI utils
+    micro
+    git
+    btop
+    
+    #Fonts
+    ttf-jetbrains-mono-nerd
+    ttf-nerd-fonts-symbols
+    
+    #Nvidia drivers
+    linux-headers
+    nvidia-open-dkms
+    nvidia-utils
+    
+    #Wayland compositor
+    niri
+    
+    #Wayland utils
+    uwsm
+    xdg-desktop-portal-gtk
+    
+    #Desktop apps
+    nemo
+    fuzzel
+    alacritty
+    pavucontrol
+    firefox
+    dconf-editor
+)

@@ -1,0 +1,4 @@
+AUR_PACKAGES=(
+    #Desktop apps
+    visual-studio-code-bin
+)

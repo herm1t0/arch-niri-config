@@ -58,8 +58,6 @@ install_configs()
 	echo "Niri autostart is enabled"
 
     # Copy up-to-date configs from the repository
-	#mkinitcpio
-	curl -Ls $repo_url/blob/main/config/mkinitcpio.conf?raw=true -o /etc/mkinitcpio.conf
 	#Zsh
 	curl -Ls $repo_url/blob/main/config/.zprofile?raw=true -o ~/.zprofile
 	curl -Ls $repo_url/blob/main/config/.zshrc?raw=true -o ~/.zshrc

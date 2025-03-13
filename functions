@@ -4,10 +4,14 @@ install_pacman_packages()
     for pack in ${PACMAN_PACKAGES[@]}; do
         pacman -Suy --noconfirm --needed --quiet $pack
     done
+	echo "Done"
 }
 
 install_yay()
 {
+	echo -ne "Install AUR helper(yay) and AUR packages? (Y/N) \n>"
+	read input && [[ $input == [yY] ]] || return 0
+
 	echo "Now installing yay..."
   	git clone https://aur.archlinux.org/yay.git
    	cd yay
@@ -17,21 +21,28 @@ install_yay()
 	for pack in ${AUR_PACKAGES[@]}; do
 		-u $SUDO_USER yay -S --noconfirm --needed --quiet $pack
 	done
+ 	echo "Done"
+ 	return 1
 }
 
 install_aur_packages()
 {
     install_yay
+    [ $? -eq 1 ] || return 0
+ 
 	echo "Now installing aur packages..."
     for pack in ${AUR_PACKAGES[@]}; do
 		-u $SUDO_USER yay -S --noconfirm --needed --quiet $pack
     done
+	echo "Done"
+	return 1
 }
 
 install_outline_CLI()
 {
 	echo "Now installing outline vpn..."
 	curl -Ls https://github.com/Kir-Antipov/outline-cli/blob/master/install.sh?raw=true | sudo bash -s -- -y
+ 	echo "Done"
 }
 
 install_configs()

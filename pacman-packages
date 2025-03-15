@@ -5,6 +5,7 @@ PACMAN_PACKAGES=(
     #CLI utils
     micro
     git
+    github-cli
     btop
     polkit
     

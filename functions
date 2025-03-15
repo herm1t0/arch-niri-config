@@ -36,8 +36,8 @@ install_outline_CLI()
 install_configs()
 {
 	# Enable TTY autologin
-	curl -L --create-dirs $REPO_URL/blob/main/getty@tty1.service.d/override.conf?raw=true -o /etc/systemd/system/getty@tty1.service.d/override.conf
-    sed -i "s/username/$USER/" /etc/systemd/system/getty@tty1.service.d/override.conf
+	sudo curl -L --create-dirs $REPO_URL/blob/main/getty@tty1.service.d/override.conf?raw=true -o /etc/systemd/system/getty@tty1.service.d/override.conf
+    sudo sed -i "s/username/$USER/" /etc/systemd/system/getty@tty1.service.d/override.conf
     echo "TTY autologin is enabled"
 
 	# Copy up-to-date configs from the repository

@@ -1,41 +1,29 @@
-install_pacman_packages()
+install_packages()
 {
     echo "Now installing pacman packages..."
     for pack in ${PACMAN_PACKAGES[@]}; do
-        pacman -Suy --noconfirm --needed --quiet $pack
+       sudo pacman -Suy --noconfirm --needed --quiet $pack
     done
 	echo "Done"
-}
-
-install_yay()
-{
-	echo -ne "Install AUR helper(yay) and AUR packages? (Y/N) \n>"
-	read input && [[ $input == [yY] ]] || return 0
+	
+	read -p "Install AUR helper(yay) and AUR packages? (Y/N) :" input && [[ $confim == [yY] ]] || return
 
 	echo "Now installing yay..."
   	git clone https://aur.archlinux.org/yay.git
    	cd yay
-	-u $SUDO_USER makepkg -sir --needed --noconfirm
+	-u $USER makepkg -sir --needed --noconfirm
 	cd ..
 	rm -rf yay/
 	for pack in ${AUR_PACKAGES[@]}; do
-		-u $SUDO_USER yay -S --noconfirm --needed --quiet $pack
+		-u $USER yay -S --noconfirm --needed --quiet $pack
 	done
  	echo "Done"
- 	return 1
-}
-
-install_aur_packages()
-{
-    install_yay
-    [ $? -eq 1 ] || return 0
- 
+ 	
 	echo "Now installing aur packages..."
     for pack in ${AUR_PACKAGES[@]}; do
 		-u $SUDO_USER yay -S --noconfirm --needed --quiet $pack
     done
 	echo "Done"
-	return 1
 }
 
 install_outline_CLI()
@@ -48,25 +36,12 @@ install_outline_CLI()
 install_configs()
 {
 	# Enable TTY autologin
-	local getty_path="/etc/systemd/system/getty@tty1.service.d"
-	curl -Ls $repo_url/blob/main$getty_path/override.conf?raw=true -o $getty_path/override.conf
-    sed -i "s/username/$SUDO_USER/" $getty_path/override.conf
+	curl -L --create-dirs $REPO_URL/blob/main/getty@tty1.service.d/override.conf?raw=true -o /etc/systemd/system/getty@tty1.service.d/override.conf
+    sed -i "s/username/$USER/" /etc/systemd/system/getty@tty1.service.d/override.conf
     echo "TTY autologin is enabled"
 
-	# Enable niri autostart
-	curl -Ls $repo_url/blob/main/.zprofile?raw=true -o ~/.zprofile
-	echo "Niri autostart is enabled"
-
-    # Copy up-to-date configs from the repository
-	#Zsh
-	curl -Ls $repo_url/blob/main/config/.zprofile?raw=true -o ~/.zprofile
-	curl -Ls $repo_url/blob/main/config/.zshrc?raw=true -o ~/.zshrc
-	#Niri
-	curl -Ls $repo_url/blob/main/config/niri/config.kdl?raw=true -o ~/.config/niri/config.kdl
-	#Fuzzel
-	curl -Ls $repo_url/blob/main/config/fuzzel/fuzzel.ini?raw=true -o ~/.config/fuzzel/fuzzel.ini
-	curl -Ls $repo_url/blob/main/config/fuzzel/theme.ini?raw=true -o ~/.config/fuzzel/theme.ini
-	
+	# Copy up-to-date configs from the repository
+    for config in ${!CONFIG_LIST[@]}; do
+		curl -L --create-dirs $config -o ${CONFIG_LIST[$config]}
+    done
 }
-
-

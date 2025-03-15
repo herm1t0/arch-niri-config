@@ -4,20 +4,34 @@
 # Linux post installation configuration
 #################################################
 
-repo_url="https://github.com/herm1t0/arch-hyprland-setup"
-pacman_packages_url="$repo_url/blob/main/pacman-packages?raw=true"
-aur_packages_url="$repo_url/blob/main/aur-packages?raw=true"
-functions_url="$repo_url/blob/main/functions?raw=true"
+if (( $EUID == 0 )); then
+	echo -e "Please DON'T run as root/sudo\nExitting..."
+	exit
+fi
 
-# Load pacman packages list
-source <(curl -Ls $pacman_packages_url)
-# Load AUR packages list
-source <(curl -Ls $aur_packages_url)
-# Load functions
-source <(curl -Ls $functions_url)
+REPO_URL="https://github.com/herm1t0/arch-niri-config"
 
-install_pacman_packages
-install_aur_packages
+SOURCES_LIST=(
+	$REPO_URL/blob/main/pacman-packages?raw=true
+	$REPO_URL/blob/main/aur-packages?raw=true
+	$REPO_URL/blob/main/functions?raw=true
+)
+
+# Key - url to config, value - config destination
+declare -A CONFIG_LIST=(
+	["$REPO_URL/blob/main/config/.zprofile?raw=true"]="$HOME/.zprofile"
+	["$REPO_URL/blob/main/config/.zshrc?raw=true"]="$HOME/.zshrc"
+	["$REPO_URL/blob/main/config/niri/config.kdl?raw=true"]="$HOME/.config/niri/config.kdl"
+	["$REPO_URL/blob/main/config/fuzzel/fuzzel.ini?raw=true"]="$HOME/.config/fuzzel/fuzzel.ini"
+	["$REPO_URL/blob/main/config/fuzzel/theme.ini?raw=true"]="$HOME/.config/fuzzel/theme.ini"
+)
+
+# Include all sources
+for source in ${SOURCES_LIST[@]}; do
+	source <(curl -Ls $source)
+done
+
+#install_packages
 install_configs
 
 echo "Jobs done"

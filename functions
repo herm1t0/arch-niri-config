@@ -1,47 +1,76 @@
+show_help()
+{
+	echo "Usage ${0} [<options>]"
+	echo
+	echo "Options:"
+	echo "	-i, --install 	Run full installation"
+	echo "	-u, --update	TO DO"
+	echo "	-h, --help		Display this help massage and exit"
+	echo
+	echo "Examples:"
+	echo "	sudo ${0} -i"
+	echo "	sudo ${0} --update"
+}
+
+assert_is_root()
+{
+	if (( $EUID == 0 )); then
+		echo -e "Please run as root/sudo\nExitting..."
+		exit 1
+	fi
+}
+
+local assert_is_installed()
+{
+	if command -v "${1}" > /dev/null 2>& 1; then
+		echo "${1}" is not installed
+	fi
+}
+
+local install_yay()
+{
+	echo "Now installing yay..."
+  	git clone https://aur.archlinux.org/yay.git
+   	cd yay
+	-u $SUDO_USER makepkg -sir --needed --noconfirm
+	cd ..
+	rm -rf yay/
+	echo "Done"
+}
+
 install_packages()
 {
     echo "Now installing pacman packages..."
     for pack in ${PACMAN_PACKAGES[@]}; do
-       sudo pacman -Suy --noconfirm --needed --quiet $pack
+       pacman -Suy --noconfirm --needed --quiet $pack
     done
 	echo "Done"
+
+	if ! assert_is_installed yay; then
+		install_yay
+	fi
 	
-	read -p "Install AUR helper(yay) and AUR packages? (Y/N) :" input && [[ $confim == [yY] ]] || return
-
-	echo "Now installing yay..."
-  	git clone https://aur.archlinux.org/yay.git
-   	cd yay
-	-u $USER makepkg -sir --needed --noconfirm
-	cd ..
-	rm -rf yay/
-	for pack in ${AUR_PACKAGES[@]}; do
-		-u $USER yay -S --noconfirm --needed --quiet $pack
-	done
- 	echo "Done"
- 	
 	echo "Now installing aur packages..."
-    for pack in ${AUR_PACKAGES[@]}; do
+	for pack in ${AUR_PACKAGES[@]}; do
 		-u $SUDO_USER yay -S --noconfirm --needed --quiet $pack
-    done
+	done
 	echo "Done"
-}
 
-install_outline_CLI()
-{
-	echo "Now installing outline vpn..."
-	curl -Ls https://github.com/Kir-Antipov/outline-cli/blob/master/install.sh?raw=true | sudo bash -s -- -y
- 	echo "Done"
+	
 }
 
 install_configs()
 {
 	# Enable TTY autologin
-	sudo curl -L --create-dirs $REPO_URL/blob/main/getty@tty1.service.d/override.conf?raw=true -o /etc/systemd/system/getty@tty1.service.d/override.conf
-    sudo sed -i "s/username/$USER/" /etc/systemd/system/getty@tty1.service.d/override.conf
+	curl -Ls --create-dirs $REPO_URL/blob/main/getty@tty1.service.d/override.conf?raw=true -o /etc/systemd/system/getty@tty1.service.d/override.conf
+    sed -i "s/username/$USER/" /etc/systemd/system/getty@tty1.service.d/override.conf
     echo "TTY autologin is enabled"
 
 	# Copy up-to-date configs from the repository
     for config in ${!CONFIG_LIST[@]}; do
-		curl -L --create-dirs $config -o ${CONFIG_LIST[$config]}
+		-u $SUDO_USER curl -Ls --create-dirs $config -o ${CONFIG_LIST[$config]}
     done
+
+	# Change default shell to zsh
+    chsh $SUDO_USER $(which zsh)
 }

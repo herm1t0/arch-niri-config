@@ -20,14 +20,14 @@ assert_is_root()
 	fi
 }
 
-local assert_is_installed()
+assert_is_installed()
 {
 	if command -v "${1}" > /dev/null 2>& 1; then
 		echo "${1}" is not installed
 	fi
 }
 
-local install_yay()
+install_yay()
 {
 	echo "Now installing yay..."
   	git clone https://aur.archlinux.org/yay.git

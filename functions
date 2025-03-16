@@ -31,9 +31,7 @@ install_yay()
 {
 	echo "Now installing yay..."
   	git clone https://aur.archlinux.org/yay.git
-   	cd yay
-	-u $SUDO_USER makepkg -sir --needed --noconfirm
-	cd ..
+	-u $SUDO_USER yay/makepkg -sir --needed --noconfirm
 	rm -rf yay/
 	echo "Done"
 }
@@ -72,5 +70,5 @@ install_configs()
     done
 
 	# Change default shell to zsh
-    sudo -u $SUDO_USER chsh -s $(which zsh)
+    chsh -s $(which zsh) $SUDO_USER
 }

@@ -40,11 +40,11 @@ main()
 		-i|--install)
 			install_configs;;
 		-u|--update)
-			echo "TO DO"; show_help; exit;;
+			echo -e "TO DO\n"; show_help; exit;;
 		-h|--help)
 			show_help; exit;;
 		*)
-			show_help; exit;;
+			echo -e "Incorrect input\n"; show_help; exit;;
 	esac
 
 	#install_packages

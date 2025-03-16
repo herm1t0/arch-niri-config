@@ -1,7 +1,7 @@
 # Installation
 
 ```shell
-curl -Ls "https://github.com/herm1t0/arch-niri-config/blob/main/install.sh?raw=true" || sh -s -- [<option>]
+curl -Ls "https://github.com/herm1t0/arch-niri-config/blob/main/install.sh?raw=true" | sudo sh -s -- [<option>]
 ```
 
 ### Options:

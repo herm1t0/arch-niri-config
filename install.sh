@@ -34,7 +34,7 @@ main()
 	# Check is script running as root
 	assert_is_root
 
-	case ${1} in
+	case "${1}" in
 		-i|--install)
 			install_configs;;
 		-u|--update)

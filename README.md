@@ -1,14 +1,8 @@
 # Installation
 
-Remote:
 ```shell
-sudo sh -c "$(curl -Ls "https://github.com/herm1t0/arch-niri-config/blob/main/install.sh?raw=true")[<option>]"
+curl -Ls "https://github.com/herm1t0/arch-niri-config/blob/main/install.sh?raw=true" || sh -s -- [<option>]
 ```
-Local:
-```shell
-curl -Ls "https://github.com/herm1t0/arch-niri-config/blob/main/install.sh?raw=true" -o ./install.sh | sudo ./install.sh [<option>]
-```
-
 
 ### Options:
 

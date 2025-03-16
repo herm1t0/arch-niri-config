@@ -68,9 +68,9 @@ install_configs()
 
 	# Copy up-to-date configs from the repository
     for config in ${!CONFIG_LIST[@]}; do
-		-u $SUDO_USER curl -Ls --create-dirs $config -o ${CONFIG_LIST[$config]}
+		sudo -u $SUDO_USER curl -Ls --create-dirs $config -o ${CONFIG_LIST[$config]}
     done
 
 	# Change default shell to zsh
-    chsh $SUDO_USER $(which zsh)
+    sudo -u $SUDO_USER chsh -s $(which zsh)
 }

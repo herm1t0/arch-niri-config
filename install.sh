@@ -42,7 +42,7 @@ main()
 		-h|--help)
 			show_help; exit;;
 		*)
-			echo "incorrect input ${@}"; show_help; exit;;
+			show_help; exit;;
 	esac
 
 	#install_packages

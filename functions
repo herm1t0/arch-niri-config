@@ -14,7 +14,7 @@ show_help()
 
 assert_is_root()
 {
-	if (( $EUID == 0 )); then
+	if (( $EUID != 0 )); then
 		echo -e "Please run as root/sudo\nExitting..."
 		exit 1
 	fi

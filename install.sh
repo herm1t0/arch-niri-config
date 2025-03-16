@@ -6,6 +6,8 @@
 
 REPO_URL="https://github.com/herm1t0/arch-niri-config"
 
+SCRIPT_NAME="${0}"
+
 SOURCES_LIST=(
 	$REPO_URL/blob/main/pacman-packages?raw=true
 	$REPO_URL/blob/main/aur-packages?raw=true

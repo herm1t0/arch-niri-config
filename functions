@@ -1,6 +1,6 @@
 show_help()
 {
-	echo "Usage ${0} [<options>]"
+	echo "Usage ${SCRIPT_NAME} [<options>]"
 	echo
 	echo "Options:"
 	echo "	-i, --install 	Run full installation"
@@ -8,8 +8,8 @@ show_help()
 	echo "	-h, --help      Display this help massage and exit"
 	echo
 	echo "Examples:"
-	echo "	sudo ${0} -i"
-	echo "	sudo ${0} --update"
+	echo "	sudo ${SCRIPT_NAME} -i"
+	echo "	sudo ${SCRIPT_NAME} --update"
 }
 
 assert_is_root()

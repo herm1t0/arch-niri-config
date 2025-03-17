@@ -7,5 +7,5 @@ curl -Ls "https://github.com/herm1t0/arch-niri-config/blob/main/install.sh?raw=t
 ### Options:
 
 	-i, --install 	Run full installation
-	-u, --update    TO DO
+	-u, --update    NOT IMPLEMENTED YET
 	-h, --help      Display help massage and exit

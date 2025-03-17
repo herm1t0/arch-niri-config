@@ -4,7 +4,7 @@ show_help()
 	echo
 	echo "Options:"
 	echo "	-i, --install 	Run full installation"
-	echo "	-u, --update    TO DO"
+	echo "	-u, --update    NOT IMPLEMENTED YET"
 	echo "	-h, --help      Display this help massage and exit"
 	echo
 	echo "Examples:"
@@ -22,16 +22,14 @@ assert_is_root()
 
 assert_is_installed()
 {
-	if command -v "${1}" > /dev/null 2>& 1; then
-		echo "${1}" is not installed
-	fi
+	command -v "${1}" > /dev/null 2>& 1;
 }
 
 install_yay()
 {
 	echo "Now installing yay..."
   	git clone https://aur.archlinux.org/yay.git
-	-u $SUDO_USER yay/makepkg -sir --needed --noconfirm
+	sudo -u $SUDO_USER yay/makepkg -sir --needed --noconfirm
 	rm -rf yay/
 	echo "Done"
 }
@@ -50,7 +48,7 @@ install_packages()
 	
 	echo "Now installing aur packages..."
 	for pack in ${AUR_PACKAGES[@]}; do
-		-u $SUDO_USER yay -S --noconfirm --needed --quiet $pack
+		sudo -u $SUDO_USER yay -S --noconfirm --needed --quiet $pack
 	done
 	echo "Done"
 
@@ -59,9 +57,11 @@ install_packages()
 
 install_configs()
 {
+	local getty_dir="/etc/systemd/system/getty@tty1.service.d"
+
 	# Enable TTY autologin
-	curl -Ls --create-dirs $REPO_URL/blob/main/getty@tty1.service.d/override.conf?raw=true -o /etc/systemd/system/getty@tty1.service.d/override.conf
-    sed -i "s/username/$USER/" /etc/systemd/system/getty@tty1.service.d/override.conf
+	curl -Ls --create-dirs "$REPO_URL/getty@tty1.service.d/override.conf?raw=true" -o "$getty_dir/override.conf"
+	sed -i "s/username/$SUDO_USER/" "$getty_dir/override.conf"
     echo "TTY autologin is enabled"
 
 	# Copy up-to-date configs from the repository

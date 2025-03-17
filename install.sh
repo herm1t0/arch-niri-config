@@ -4,24 +4,24 @@
 # Linux post installation configuration
 #################################################
 
-REPO_URL="https://github.com/herm1t0/arch-niri-config"
+REPO_URL="https://github.com/herm1t0/arch-niri-config/blob/main"
 
 SCRIPT_NAME="${0}"
 
 SOURCES_LIST=(
-	$REPO_URL/blob/main/pacman-packages?raw=true
-	$REPO_URL/blob/main/aur-packages?raw=true
-	$REPO_URL/blob/main/functions?raw=true
+	$REPO_URL/pacman-packages?raw=true
+	$REPO_URL/aur-packages?raw=true
+	$REPO_URL/functions?raw=true
 )
 
 # Key - url to config, value - config destination
 declare -A CONFIG_LIST=(
-	["$REPO_URL/blob/main/config/.zprofile?raw=true"]="$HOME/.zprofile"
-	["$REPO_URL/blob/main/config/.zshrc?raw=true"]="$HOME/.zshrc"
-	["$REPO_URL/blob/main/config/niri/config.kdl?raw=true"]="$HOME/.config/niri/config.kdl"
-	["$REPO_URL/blob/main/config/alacritty/alacritty.toml?raw=true"]="$HOME/.config/alacritty/alacritty.toml"
-	["$REPO_URL/blob/main/config/fuzzel/fuzzel.ini?raw=true"]="$HOME/.config/fuzzel/fuzzel.ini"
-	["$REPO_URL/blob/main/config/fuzzel/theme.ini?raw=true"]="$HOME/.config/fuzzel/theme.ini"
+	["$REPO_URL/config/.zprofile?raw=true"]="$HOME/.zprofile"
+	["$REPO_URL/config/.zshrc?raw=true"]="$HOME/.zshrc"
+	["$REPO_URL/config/niri/config.kdl?raw=true"]="$HOME/.config/niri/config.kdl"
+	["$REPO_URL/config/alacritty/alacritty.toml?raw=true"]="$HOME/.config/alacritty/alacritty.toml"
+	["$REPO_URL/config/fuzzel/fuzzel.ini?raw=true"]="$HOME/.config/fuzzel/fuzzel.ini"
+	["$REPO_URL/config/fuzzel/theme.ini?raw=true"]="$HOME/.config/fuzzel/theme.ini"
 )
 
 
@@ -38,16 +38,15 @@ main()
 
 	case "${1}" in
 		-i|--install)
-			install_configs;;
+			install_packages; install_configs;;
 		-u|--update)
-			echo -e "TO DO\n"; show_help; exit;;
+			echo -e "NOT IMPLEMENTED YET\n"; show_help; exit;;
 		-h|--help)
 			show_help; exit;;
 		*)
 			echo -e "Incorrect input\n"; show_help; exit;;
 	esac
-
-	#install_packages
+	
 	echo "Jobs done"	
 }
 

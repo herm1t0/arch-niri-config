@@ -29,7 +29,7 @@ install_yay()
 {
 	echo "Now installing yay..."
   	git clone https://aur.archlinux.org/yay.git
-	sudo -u $SUDO_USER yay/makepkg -sir --needed --noconfirm
+	(cd yay && sudo -u $SUDO_USER makepkg -sir --needed --noconfirm)
 	rm -rf yay/
 	echo "Done"
 }

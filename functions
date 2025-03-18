@@ -28,7 +28,7 @@ assert_is_installed()
 install_yay()
 {
 	echo "Now installing yay..."
-  	git clone https://aur.archlinux.org/yay.git
+  	sudo -u $SUDO_USER git clone https://aur.archlinux.org/yay.git
 	(cd yay && sudo -u $SUDO_USER makepkg -sir --needed --noconfirm)
 	rm -rf yay/
 	echo "Done"

@@ -1,20 +1,14 @@
-show_help()
+#!/bin/bash
+
+show_info()
 {
-	echo "Usage ${SCRIPT_NAME} [<options>]"
-	echo
-	echo "Options:"
-	echo "	-i, --install 	Run full installation"
-	echo "	-u, --update    NOT IMPLEMENTED YET"
-	echo "	-h, --help      Display this help massage and exit"
-	echo
-	echo "Examples:"
-	echo "	sudo ${SCRIPT_NAME} -i"
-	echo "	sudo ${SCRIPT_NAME} --update"
+	echo "Installs packages and configs"
+	echo "To be populated..."
 }
 
 assert_is_root()
 {
-	if (( $EUID != 0 )); then
+	if (( "$EUID" != 0 )); then
 		echo -e "Please run as root/sudo\nExitting..."
 		exit 1
 	fi
@@ -28,8 +22,8 @@ assert_is_installed()
 install_yay()
 {
 	echo "Now installing yay..."
-  	sudo -u $SUDO_USER git clone https://aur.archlinux.org/yay.git
-	(cd yay && sudo -u $SUDO_USER makepkg -sir --needed --noconfirm)
+  	sudo -u "$SUDO_USER" git clone https://aur.archlinux.org/yay.git
+	(cd yay && sudo -u "$SUDO_USER" makepkg -sir --needed --noconfirm)
 	rm -rf yay/
 	echo "Done"
 }
@@ -37,8 +31,8 @@ install_yay()
 install_packages()
 {
     echo "Now installing pacman packages..."
-    for pack in ${PACMAN_PACKAGES[@]}; do
-       pacman -Suy --noconfirm --needed --quiet $pack
+    for pack in "${PACMAN_PACKAGES[@]}"; do
+       pacman -Suy --noconfirm --needed --quiet "$pack"
     done
 	echo "Done"
 
@@ -47,8 +41,8 @@ install_packages()
 	fi
 	
 	echo "Now installing aur packages..."
-	for pack in ${AUR_PACKAGES[@]}; do
-		sudo -u $SUDO_USER yay -S --noconfirm --needed --quiet $pack
+	for pack in "${AUR_PACKAGES[@]}"; do
+		sudo -u "$SUDO_USER" yay -S --noconfirm --needed --quiet "$pack"
 	done
 	echo "Done"
 
@@ -65,10 +59,10 @@ install_configs()
     echo "TTY autologin is enabled"
 
 	# Copy up-to-date configs from the repository
-    for config in ${!CONFIG_LIST[@]}; do
-		sudo -u $SUDO_USER curl -Ls --create-dirs $config -o ${CONFIG_LIST[$config]}
+    for config in "${!CONFIG_LIST[@]}"; do
+		sudo -u "$SUDO_USER" curl -Ls --create-dirs "$config" -o "${CONFIG_LIST[$config]}"
     done
 
 	# Change default shell to zsh
-    chsh -s $(which zsh) $SUDO_USER
+    chsh -s "$(which zsh)" "$SUDO_USER"
 }

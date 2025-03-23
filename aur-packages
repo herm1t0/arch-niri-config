@@ -1,4 +1,6 @@
-AUR_PACKAGES=(
+#!/bin/bash
+
+export AUR_PACKAGES=(
     #Desktop apps
     visual-studio-code-bin
 )

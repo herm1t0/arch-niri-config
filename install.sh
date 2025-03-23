@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 #################################################
 # Linux post installation configuration
@@ -6,16 +6,16 @@
 
 REPO_URL="https://github.com/herm1t0/arch-niri-config/blob/main"
 
-SCRIPT_NAME="${0}"
+export SCRIPT_NAME="${0}"
 
 SOURCES_LIST=(
-	$REPO_URL/pacman-packages?raw=true
-	$REPO_URL/aur-packages?raw=true
-	$REPO_URL/functions?raw=true
+	"$REPO_URL/pacman-packages?raw=true"
+	"$REPO_URL/aur-packages?raw=true"
+	"$REPO_URL/functions?raw=true"
 )
 
 # Key - url to config, value - config destination
-declare -A CONFIG_LIST=(
+declare -Ax CONFIG_LIST=(
 	["$REPO_URL/config/.zprofile?raw=true"]="$HOME/.zprofile"
 	["$REPO_URL/config/.zshrc?raw=true"]="$HOME/.zshrc"
 	["$REPO_URL/config/niri/config.kdl?raw=true"]="$HOME/.config/niri/config.kdl"
@@ -29,28 +29,31 @@ declare -A CONFIG_LIST=(
 main()
 {
 	# Include all sources
-	for source in ${SOURCES_LIST[@]}; do
-		source <(curl -Ls $source)
+	for source in "${SOURCES_LIST[@]}"; do
+		source <(curl -Ls "$source")
 	done
 
 	# Check is script running as root
 	assert_is_root
 
-	case "${1}" in
-		-i|--install)
+	echo -e "Choose an option:\n1 - install\n2 - update\n3 - show info\n"
+	read -r input
+
+	case "${input}" in
+		1|install)
 			install_packages; install_configs;;
-		-u|--update)
-			echo -e "NOT IMPLEMENTED YET\n"; show_help; exit;;
-		-h|--help)
-			show_help; exit;;
+		2|update)
+			echo -e "NOT IMPLEMENTED YET\n"; exit;;
+		3|info)
+			show_info; exit;;
 		*)
-			echo -e "Incorrect input\n"; show_help; exit;;
+			echo -e "Incorrect input\n"; exit;;
 	esac
 	
 	echo "Jobs done"	
 }
 
-main "${@}"
+main
 
 
 

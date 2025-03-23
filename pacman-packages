@@ -1,8 +1,11 @@
-PACMAN_PACKAGES=(
+#!/bin/bash
+
+export PACMAN_PACKAGES=(
     #Shell
     zsh
     
     #CLI utils
+#    yazi
     micro
     git
     github-cli
@@ -22,12 +25,13 @@ PACMAN_PACKAGES=(
     #Wayland utils
     uwsm
     xdg-desktop-portal-gtk
+    gnome-keyring
     
     #Wayland compositor
     niri
     
     #Desktop apps
-    nemo
+#    nemo
     fuzzel
     alacritty
     pavucontrol

@@ -28,7 +28,9 @@ declare -Ax CONFIG_LIST=(
 # Main entry point of the script
 main()
 {
-	echo "0001"
+	echo "0002"
+	printf "%s" "Choose an option:\n1 - install\n2 - update\n3 - show info\n"
+	read -r input
 
 	# Include all sources
 	for source in "${SOURCES_LIST[@]}"; do
@@ -38,10 +40,9 @@ main()
 	# Check is script running as root
 	assert_is_root
 
-	printf "%s" "Choose an option:\n1 - install\n2 - update\n3 - show info\n"
-	read -r test
+	
 
-	case "${test}" in
+	case "${input}" in
 		1|install)
 			install_packages; install_configs;;
 		2|update)

@@ -24,17 +24,11 @@ declare -Ax CONFIG_LIST=(
 	["$REPO_URL/config/fuzzel/theme.ini?raw=true"]="$HOME/.config/fuzzel/theme.ini"
 )
 
-read_input()
-{
-	printf "%s" "Choose an option:\n1 - install\n2 - update\n3 - show info\n"
-	read -r input
-}
-
 # Main entry point of the script
 main()
 {
-	echo "0005"
-	read_input
+	echo "0009"
+	
 
 	# Include all sources
 	for source in "${SOURCES_LIST[@]}"; do
@@ -59,5 +53,8 @@ main()
 	
 	echo "Jobs done"	
 }
+
+echo -e "Choose an option:\n1 - install\n2 - update\n3 - show info\n"
+read -r input
 
 main

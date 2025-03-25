@@ -28,9 +28,6 @@ declare -Ax CONFIG_LIST=(
 # Main entry point of the script
 main()
 {
-	SCRIPTDIR="$(dirname -- "$BASH_SOURCE")"
-	echo "$SCRIPTDIR"
-
 	# Include all sources
 	for source in "${SOURCES_LIST[@]}"; do
 		source <(curl -Ls "$source")

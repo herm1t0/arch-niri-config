@@ -3,6 +3,10 @@
 export PACMAN_PACKAGES=(
     #Shell
     zsh
+    starship
+
+    #Icons
+    papirus-icon-theme-dark
     
     #CLI utils
 #    yazi

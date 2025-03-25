@@ -16,10 +16,10 @@ SOURCES_LIST=(
 
 # Key - url to config, value - config destination
 declare -Ax CONFIG_LIST=(
-	["$REPO_URL/config/.zprofile?raw=true"]="$HOME/.zprofile"
-	["$REPO_URL/config/.zshrc?raw=true"]="$HOME/.zshrc"
+	["$REPO_URL/config/.zshenv?raw=true"]="$HOME/.zshenv"
+	["$REPO_URL/config/zsh/.zprofile?raw=true"]="$HOME/.config/zsh/.zprofile"
+	["$REPO_URL/config/zsh/.zshrc?raw=true"]="$HOME/config/zsh/.zshrc"
 	["$REPO_URL/config/niri/config.kdl?raw=true"]="$HOME/.config/niri/config.kdl"
-	["$REPO_URL/config/alacritty/alacritty.toml?raw=true"]="$HOME/.config/alacritty/alacritty.toml"
 	["$REPO_URL/config/fuzzel/fuzzel.ini?raw=true"]="$HOME/.config/fuzzel/fuzzel.ini"
 	["$REPO_URL/config/fuzzel/theme.ini?raw=true"]="$HOME/.config/fuzzel/theme.ini"
 )
@@ -28,6 +28,9 @@ declare -Ax CONFIG_LIST=(
 # Main entry point of the script
 main()
 {
+	SCRIPTDIR="$(dirname -- "$BASH_SOURCE")"
+	echo "$SCRIPTDIR"
+
 	# Include all sources
 	for source in "${SOURCES_LIST[@]}"; do
 		source <(curl -Ls "$source")

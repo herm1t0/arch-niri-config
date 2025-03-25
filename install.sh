@@ -28,6 +28,8 @@ declare -Ax CONFIG_LIST=(
 # Main entry point of the script
 main()
 {
+	echo "2035"
+
 	# Include all sources
 	for source in "${SOURCES_LIST[@]}"; do
 		source <(curl -Ls "$source")
@@ -53,6 +55,3 @@ main()
 }
 
 main
-
-
-

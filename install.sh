@@ -27,8 +27,10 @@ declare -Ax CONFIG_LIST=(
 # Main entry point of the script
 main()
 {
-	echo "0009"
-	
+	echo "0010"
+	echo -e "Choose an option:\n1 - install\n2 - update\n3 - show info\n"
+	read -r input
+	echo "$input"
 
 	# Include all sources
 	for source in "${SOURCES_LIST[@]}"; do
@@ -53,8 +55,5 @@ main()
 	
 	echo "Jobs done"	
 }
-
-echo -e "Choose an option:\n1 - install\n2 - update\n3 - show info\n"
-read -r input
 
 main

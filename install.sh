@@ -38,7 +38,7 @@ main()
 	# Check is script running as root
 	assert_is_root
 
-	read -pr "Choose an option:\n1 - install\n2 - update\n3 - show info\n" input
+	read -p "Choose an option:\n1 - install\n2 - update\n3 - show info\n" input
 
 	case "${input}" in
 		1|install)

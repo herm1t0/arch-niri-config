@@ -27,10 +27,7 @@ declare -Ax CONFIG_LIST=(
 # Main entry point of the script
 main()
 {
-	echo "0010"
-	echo -e "Choose an option:\n1 - install\n2 - update\n3 - show info\n"
-	read -r input
-	echo "$input"
+	
 
 	# Include all sources
 	for source in "${SOURCES_LIST[@]}"; do
@@ -40,14 +37,15 @@ main()
 	# Check is script running as root
 	assert_is_root
 
-	
+	echo -e "Choose an option:\n1 - install\n2 - update\n3 - show info\n"
+	read -r input
 
 	case "${input}" in
 		1|install)
 			install_packages; install_configs;;
 		2|update)
 			echo -e "NOT IMPLEMENTED YET\n"; exit;;
-		3|info)
+		3|"show info"|info)
 			show_info; exit;;
 		*)
 			echo -e "Incorrect input\n"; exit;;

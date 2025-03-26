@@ -6,13 +6,13 @@ export PACMAN_PACKAGES=(
     starship
 
     #Icons
-    papirus-icon-theme-dark
+    papirus-icon-theme
     
     #CLI utils
 #    yazi
     micro
     git
-    github-cli
+#   github-cli
     btop
     polkit
     
@@ -29,7 +29,7 @@ export PACMAN_PACKAGES=(
     #Wayland utils
     uwsm
     xdg-desktop-portal-gtk
-    gnome-keyring
+#   gnome-keyring
     
     #Wayland compositor
     niri
@@ -40,7 +40,7 @@ export PACMAN_PACKAGES=(
     alacritty
     pavucontrol
     firefox
-    file-roller
+#   file-roller
     font-manager
     dconf-editor
 )

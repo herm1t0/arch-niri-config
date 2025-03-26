@@ -8,8 +8,6 @@ export ZDOTDIR="${XDG_CONFIG_HOME}/zsh"
 
 export EDITOR=micro
 
-alias code="code --enable-features=UseOzonePlatform --ozone-platform=wayland"
-
 typeset -U path fpath
 path=(~/.local/bin ~/bin $path)
 fpath+=("$ZDOTDIR/.zfunc")

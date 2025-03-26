@@ -63,6 +63,11 @@ install_configs()
 		sudo -u "$SUDO_USER" curl -Ls --create-dirs "$config" -o "${CONFIG_LIST[$config]}"
     done
 
+	# Changing a hardcoded gtk-launch terminal with xdg-terminal-exec
+	echo Alacritty.desktop >> "$HOME"/.config/xdg-terminals.list
+	mkdir -p "$HOME"/.local/share/xdg-terminals/
+	ln -s /usr/applications/Alacritty.desktop "$HOME"/.local/share/xdg-terminals/
+
 	# Change default shell to zsh
     chsh -s "$(which zsh)" "$SUDO_USER"
 }

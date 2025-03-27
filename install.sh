@@ -51,7 +51,9 @@ main()
 			echo -e "Incorrect input\n"; exit;;
 	esac
 	
-	echo "Jobs done"	
+	echo "Jobs done"
+
+	# Add reboot with delay
 }
 
 main

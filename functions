@@ -64,9 +64,9 @@ install_configs()
     done
 
 	# Changing a hardcoded gtk-launch terminal with xdg-terminal-exec
-	echo Alacritty.desktop >> "$HOME"/.config/xdg-terminals.list
-	mkdir -p "$HOME"/.local/share/xdg-terminals/
-	ln -s /usr/applications/Alacritty.desktop "$HOME"/.local/share/xdg-terminals/
+	sudo -u "$SUDO_USER" echo Alacritty.desktop > "$HOME"/.config/xdg-terminals.list
+	sudo -u "$SUDO_USER" mkdir -p "$HOME"/.local/share/xdg-terminals/
+	sudo -u "$SUDO_USER" ln -s /usr/applications/Alacritty.desktop "$HOME"/.local/share/xdg-terminals/
 
 	# Change default shell to zsh
     chsh -s "$(which zsh)" "$SUDO_USER"

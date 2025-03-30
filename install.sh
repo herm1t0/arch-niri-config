@@ -30,8 +30,8 @@ main()
 	
 
 	# Include all sources
-	for source in "${SOURCES_LIST[@]}"; do
-		source <(curl -Ls "$source")
+	for src in "${SOURCES_LIST[@]}"; do
+		source <(curl -Ls "$src")
 	done
 
 	# Check is script running as root

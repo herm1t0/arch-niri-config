@@ -1,0 +1,53 @@
+#!/bin/bash
+
+declare -A APPS_DESKTOP
+declare -A APPS_CLI
+declare -A APPS_ICONS_DESKTOP
+declare -A APPS_ICONS_CLI
+
+for src in "$APPSDIR"/*.desktop; do
+	file_fullpath=$src
+	app_name=$(sed -n -e '/Name=/ s/.*\= *//p' "$file_fullpath" | head -1)
+	app_icon_name=$(sed -n -e '/Icon=/ s/.*\= *//p' "$file_fullpath")	# Read an icon name from the .desktop file
+	is_hidden=$(sed -n -e '/Hidden=/ s/.*\= *//p' "$file_fullpath")		# Read a hidden bool from the .desktop file
+	is_cli_app=$(sed -n -e '/CLI=/ s/.*\= *//p' "$file_fullpath")
+
+	if "$is_hidden" ; then												# If app is hidden skip to the next iterration
+		continue
+	fi	
+
+	if [ -n "$app_icon_name" ]; then									# If icon name was found
+		icon="\0icon\x1f$app_icon_name"									# Use it
+	else
+		icon="\0icon\x1f$DEFAULT_ICON"									# Else use default icon
+	fi
+	
+	src="${src##*/}"													# Remove all except {file}.desktop
+	src="${src%.*}"														# Remove .desktop from the file name
+
+	if "$is_cli_app" ; then
+		APPS_CLI+=(["$app_name"]="$src")	
+		APPS_ICONS_CLI+=(["$app_name"]="$icon")
+	else
+		APPS_DESKTOP+=(["$app_name"]="$src")
+		APPS_ICONS_DESKTOP+=(["$app_name"]="$icon")
+	fi
+done
+
+show_desktop_apps()
+{
+	user_selection=$(paste <(printf "%s\n" "${!APPS_DESKTOP[@]}") <(printf "%b\n" "${APPS_ICONS_DESKTOP[@]}") | fuzzel -d | sed 's/[^a-z  A-Z:]//g')
+	gtk-launch "${APPS_DESKTOP["$user_selection"]}"
+}
+
+show_cli_apps()
+{
+	user_selection=$(paste <(printf "%s\n" "${!APPS_CLI[@]}") <(printf "%b\n" "${APPS_ICONS_CLI[@]}") | fuzzel -d | sed 's/[^a-z  A-Z:]//g')
+	gtk-launch "${APPS_CLI["$user_selection"]}"
+}
+
+case "$(printf "%b\n" "Desktop" "CLI" | fuzzel -d --index)" in
+	0) show_desktop_apps ;;
+	1) show_cli_apps ;;
+	*) exit ;;
+esac

@@ -6,4 +6,7 @@ export AUR_PACKAGES=(
 
     #Misc
     xdg-terminal-exec-git
+
+    #CLI utils
+    byedpi
 )

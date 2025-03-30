@@ -63,7 +63,7 @@ install_configs()
 		sudo -u "$SUDO_USER" curl -Ls --create-dirs "$config" -o "${CONFIG_LIST[$config]}"
     done
 
-	# Changing a hardcoded gtk-launch terminal with xdg-terminal-exec
+	# Changing a hardcoded gtk-launch terminal with Alacritty via xdg-terminal-exec
 	sudo -u "$SUDO_USER" echo Alacritty.desktop > "$HOME"/.config/xdg-terminals.list
 	sudo -u "$SUDO_USER" mkdir -p "$HOME"/.local/share/xdg-terminals/
 	sudo -u "$SUDO_USER" ln -s /usr/applications/Alacritty.desktop "$HOME"/.local/share/xdg-terminals/

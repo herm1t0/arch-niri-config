@@ -2,14 +2,13 @@
 
 show_info()
 {
-	echo "Installs packages and configs"
-	echo "To be populated..."
+	printf "%s\n" "Installs packages and configs" "To be populated..."
 }
 
-assert_is_root()
+assert_is_sudo()
 {
 	if (( "$EUID" != 0 )); then
-		echo -e "Please run as root/sudo\nExitting..."
+		printf "%s\n" "Please run the script with sudo" "Exiting..."
 		exit 1
 	fi
 }
@@ -21,53 +20,56 @@ assert_is_installed()
 
 install_yay()
 {
-	echo "Now installing yay..."
+	printf "%s\n" "Now installing yay..."
   	sudo -u "$SUDO_USER" git clone https://aur.archlinux.org/yay.git
 	(cd yay && sudo -u "$SUDO_USER" makepkg -sir --needed --noconfirm)
 	rm -rf yay/
-	echo "Done"
+	printf "%s\n" "Done"
 }
 
 install_packages()
 {
-    echo "Now installing pacman packages..."
+    printf "%s\n" "Now installing pacman packages..."
     for pack in "${PACMAN_PACKAGES[@]}"; do
        pacman -Suy --noconfirm --needed --quiet "$pack"
     done
-	echo "Done"
+	printf "%s\n" "Done"
 
 	if ! assert_is_installed yay; then
 		install_yay
 	fi
 	
-	echo "Now installing aur packages..."
+	printf "%s\n" "Now installing aur packages..."
 	for pack in "${AUR_PACKAGES[@]}"; do
 		sudo -u "$SUDO_USER" yay -S --noconfirm --needed --quiet "$pack"
 	done
-	echo "Done"
+	printf "%s\n" "Done"
 
 	
 }
 
 install_configs()
 {
-	local getty_dir="/etc/systemd/system/getty@tty1.service.d"
+  local getty_dir="/etc/systemd/system/getty@tty1.service.d"
 
 	# Enable TTY autologin
-	curl -Ls --create-dirs "$REPO_URL/getty@tty1.service.d/override.conf?raw=true" -o "$getty_dir/override.conf"
-	sed -i "s/username/$SUDO_USER/" "$getty_dir/override.conf"
-    echo "TTY autologin is enabled"
+  curl -Ls --create-dirs "$REPO_URL/getty@tty1.service.d/override.conf?raw=true" -o "$getty_dir/override.conf"
+  sed -i "s/username/$SUDO_USER/" "$getty_dir/override.conf"
+  printf "%s\n" "TTY autologin is enabled"
 
-	# Copy up-to-date configs from the repository
-    for config in "${!CONFIG_LIST[@]}"; do
-		sudo -u "$SUDO_USER" curl -Ls --create-dirs "$config" -o "${CONFIG_LIST[$config]}"
-    done
+  # Copy up-to-date configs from the repository
+  for config in "${!CONFIG_LIST[@]}"; do
+    sudo -u "$SUDO_USER" curl -Ls --create-dirs "$config" -o "${CONFIG_LIST[$config]}"
+  done
 
-	# Changing a hardcoded gtk-launch terminal with Alacritty via xdg-terminal-exec
-	sudo -u "$SUDO_USER" echo Alacritty.desktop > "$HOME"/.config/xdg-terminals.list
+  # Changing a hardcoded gtk-launch terminal with Alacritty via xdg-terminal-exec
+	sudo -u "$SUDO_USER" bash -c "printf '%s\n' 'Alacritty.desktop' > $HOME/.config/xdg-terminals.list"
 	sudo -u "$SUDO_USER" mkdir -p "$HOME"/.local/share/xdg-terminals/
 	sudo -u "$SUDO_USER" ln -s /usr/applications/Alacritty.desktop "$HOME"/.local/share/xdg-terminals/
+	
+  # JB Rider "patching" :)
+	bash -c "printf '%s\n' '-Dawt.toolkit.name=WLToolkit' '-javaagent:$JETBRA_PATH/jetbra-agent.jar' >> /usr/share/rider/bin/rider64.vmoptions"
 
-	# Change default shell to zsh
-    chsh -s "$(which zsh)" "$SUDO_USER"
+  # Change default shell to zsh
+  chsh -s "$(which zsh)" "$SUDO_USER"
 }

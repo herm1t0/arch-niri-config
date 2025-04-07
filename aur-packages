@@ -2,11 +2,15 @@
 
 export AUR_PACKAGES=(
     #Desktop apps
-    visual-studio-code-bin
+#   visual-studio-code-bin
+    rider
 
     #Misc
     xdg-terminal-exec-git
 
     #CLI utils
     byedpi
+    
+    #Java
+    jdk-openjdk-wakefield
 )

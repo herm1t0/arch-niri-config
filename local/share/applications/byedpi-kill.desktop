@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Name=ByeDPI: Kill task
+Comment=
+Icon=ByeDPI
+Terminal=false
+Exec=killall ciadpi
+Categories=Utility
+CLI=true

@@ -4,6 +4,35 @@
 # Linux post installation configuration
 #################################################
 
+CURRENT_SCRIPT_DIR="$(dirname -- "${BASH_SOURCE[0]}")"
+
+source "$CURRENT_SCRIPT_DIR/pacman-packages"
+source "$CURRENT_SCRIPT_DIR/aur-packages"
+source "$CURRENT_SCRIPT_DIR/functions"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+: '
 REPO_URL="https://github.com/herm1t0/arch-niri-config/blob/main"
 JETBRA_PATH="$HOME/jetbra"
 
@@ -22,8 +51,13 @@ declare -Ax CONFIG_LIST=(
 	["$REPO_URL/config/fuzzel/fuzzel.ini?raw=true"]="$HOME/.config/fuzzel/fuzzel.ini"
 	["$REPO_URL/config/fuzzel/theme.ini?raw=true"]="$HOME/.config/fuzzel/theme.ini"
 	["$REPO_URL/jetbra/block_url_keywords?raw=true"]="$JETBRA_PATH/block_url_keywords"
-	["$REPO_URL/jetbra/fuzzel/theme.ini?raw=true"]="$JETBRA_PATH/block_url_keywords"
-	["$REPO_URL/jetbra/fuzzel/theme.ini?raw=true"]="$JETBRA_PATH/block_url_keywords"
+	["$REPO_URL/jetbra/jetbra-agent.jar?raw=true"]="$JETBRA_PATH/jetbra-agent.jar"
+	["$REPO_URL/jetbra/trust-crt/janetfilter.crt?raw=true"]="$JETBRA_PATH/trust-crt/janetfilter.crt"
+	["$REPO_URL/jetbra/trust-crt/jetbra.crt.crt?raw=true"]="$JETBRA_PATH/trust-crt/jetbra.crt.crt"
+)
+
+declare -a APPS_DESKTOP_LIST=(
+  
 )
 
 # Main entry point of the script
@@ -52,8 +86,9 @@ main()
 			printf "%s\n" "Incorrect input"; exit;;
 	esac
 	
-	printf "%s\n" "Jobs done, don't forget to reboot"
+	printf "%s\n" "Jobs done, dont forget to reboot"
 }
 
 # Calls a main function
 main
+'

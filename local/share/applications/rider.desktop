@@ -1,0 +1,12 @@
+#!/usr/bin/env xdg-open
+[Desktop Entry]
+Name=Rider
+Comment=Code Editing. Redefined.
+GenericName=Text Editor
+Exec=/usr/bin/rider
+Icon=rider
+Type=Application
+NoDisplay=true
+StartupNotify=true
+Categories=Utility;TextEditor;Development;IDE;
+Keywords=rider;

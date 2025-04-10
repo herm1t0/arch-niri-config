@@ -1,0 +1,14 @@
+[Desktop Entry]
+Name=VS Code: URL Handler
+Comment=Code Editing. Redefined.
+GenericName=Text Editor
+Exec=/usr/bin/code --open-url %U --enable-features=UseOzonePlatform --ozone-platform=wayland
+Icon=vscode
+Type=Application
+NoDisplay=true
+StartupNotify=true
+Categories=Utility;TextEditor;Development;IDE;
+MimeType=x-scheme-handler/vscode;
+Keywords=vscode;
+
+Hidden=true

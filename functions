@@ -29,11 +29,11 @@ install_yay()
 
 install_packages()
 {
-    printf "%s\n" "Now installing pacman packages..."
-    for pack in "${PACMAN_PACKAGES[@]}"; do
-       pacman -Suy --noconfirm --needed --quiet "$pack"
-    done
-	printf "%s\n" "Done"
+  printf "%s\n" "Now installing pacman packages..."
+  for pack in "${PACMAN_PACKAGES[@]}"; do
+    pacman -Suy --noconfirm --needed --quiet "$pack"
+  done
+  printf "%s\n" "Done"
 
 	if ! assert_is_installed yay; then
 		install_yay
@@ -50,26 +50,29 @@ install_packages()
 
 install_configs()
 {
-  local getty_dir="/etc/systemd/system/getty@tty1.service.d"
-
-	# Enable TTY autologin
-  curl -Ls --create-dirs "$REPO_URL/getty@tty1.service.d/override.conf?raw=true" -o "$getty_dir/override.conf"
-  sed -i "s/username/$SUDO_USER/" "$getty_dir/override.conf"
+  local jetbra_destination_path="$HOME/jetbra"
+    
+	# Enabling TTY autologin
+	cp -r "$CURRENT_SCRIPT_DIR"/getty@tty1.service.d/ /etc/systemd/system/
+  sed -i "s/username/$SUDO_USER/" "/etc/systemd/system/getty@tty1.service.d/override.conf"
   printf "%s\n" "TTY autologin is enabled"
+  
+  # Copying .desktop files
+  sudo -u "$SUDO_USER" mkdir -p "$HOME"/.local/share/applications/ && cp -r "$CURRENT_SCRIPT_DIR"/local/share/applications/* "$HOME"/.local/share/applications/
 
-  # Copy up-to-date configs from the repository
-  for config in "${!CONFIG_LIST[@]}"; do
-    sudo -u "$SUDO_USER" curl -Ls --create-dirs "$config" -o "${CONFIG_LIST[$config]}"
-  done
+  # Copying configs
+  sudo -u "$SUDO_USER" cp -r "$CURRENT_SCRIPT_DIR"/config/* "$HOME"/.config/
 
   # Changing a hardcoded gtk-launch terminal with Alacritty via xdg-terminal-exec
-	sudo -u "$SUDO_USER" bash -c "printf '%s\n' 'Alacritty.desktop' > $HOME/.config/xdg-terminals.list"
+	sudo -u "$SUDO_USER" bash -c "printf '%s\n' 'alacritty.desktop' > $HOME/.config/xdg-terminals.list"
 	sudo -u "$SUDO_USER" mkdir -p "$HOME"/.local/share/xdg-terminals/
-	sudo -u "$SUDO_USER" ln -s /usr/applications/Alacritty.desktop "$HOME"/.local/share/xdg-terminals/
+	sudo -u "$SUDO_USER" ln -s "$HOME"/.local/share/applications/alacritty.desktop "$HOME"/.local/share/xdg-terminals/
 	
-  # JB Rider "patching" :)
-	bash -c "printf '%s\n' '-Dawt.toolkit.name=WLToolkit' '-javaagent:$JETBRA_PATH/jetbra-agent.jar' >> /usr/share/rider/bin/rider64.vmoptions"
+  # JB Rider "curing" :)
+  curl -JL https://github.com/novitechie/jetbra/releases/download/jetbra/jetbra-all.zip -o "$HOME"/jetbra.zip
+  unzip "$HOME"/jetbra.zip -d "$HOME" && rm "$HOME"/jetbra.zip
+	bash -c "printf '%s\n' '-Dawt.toolkit.name=WLToolkit' '-javaagent:$jetbra_destination_path/jetbra-agent.jar' >> /usr/share/rider/bin/rider64.vmoptions"
 
-  # Change default shell to zsh
+  # Changing default shell to zsh
   chsh -s "$(which zsh)" "$SUDO_USER"
 }

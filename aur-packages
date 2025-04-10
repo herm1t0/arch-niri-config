@@ -4,6 +4,7 @@ export AUR_PACKAGES=(
     #Desktop apps
 #   visual-studio-code-bin
     rider
+    pwvucontrol
 
     #Misc
     xdg-terminal-exec-git

@@ -1,49 +1,48 @@
 #!/bin/bash
 
 export PACMAN_PACKAGES=(
-    #Shell
-    zsh
-    starship
+  #Shell
+  zsh
+  starship
 
-    #Icons
-    papirus-icon-theme
-    
-    #CLI utils
-#   yazi
-    micro
-    git
-#   github-cli
-    btop
-    polkit
-    
-    #Fonts
-    ttf-jetbrains-mono-nerd
-    ttf-nerd-fonts-symbols
-    noto-fonts
-    
-    #Nvidia drivers
-    linux-headers
-    nvidia-open-dkms
-    nvidia-utils
+  #Icons
+  papirus-icon-theme
 
-    #Wayland utils
-    uwsm
-    xdg-desktop-portal-gtk
-#   gnome-keyring
-    
-    #Wayland compositor
-    niri
-    
-    #Desktop apps
-#   nemo
-    fuzzel
-    alacritty
-    pavucontrol
-    firefox
-#   file-roller
-    font-manager
-    dconf-editor
-    
-    #Java
-    jdk21-openjdk
+  #CLI utils
+  #   yazi
+  micro
+  git
+  #   github-cli
+  btop
+  polkit
+
+  #Fonts
+  ttf-jetbrains-mono-nerd
+  ttf-nerd-fonts-symbols
+  noto-fonts
+
+  #Nvidia drivers
+  linux-headers
+  nvidia-open-dkms
+  nvidia-utils
+
+  #Wayland utils
+  uwsm
+  xdg-desktop-portal-gtk
+  #   gnome-keyring
+
+  #Wayland compositor
+  niri
+
+  #Desktop apps
+  nemo
+  fuzzel
+  alacritty
+  firefox
+  file-roller
+  font-manager
+  dconf-editor
+
+  #Java
+  jdk21-openjdk
 )

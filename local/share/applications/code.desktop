@@ -1,0 +1,13 @@
+#!/usr/bin/env xdg-open
+[Desktop Entry]
+Name=VS Code
+Comment=Code Editing. Redefined.
+GenericName=Text Editor
+Exec=/usr/bin/code --enable-features=UseOzonePlatform --ozone-platform=wayland
+Icon=vscode
+Type=Application
+NoDisplay=true
+StartupNotify=true
+Categories=Utility;TextEditor;Development;IDE;
+MimeType=x-scheme-handler/vscode;
+Keywords=vscode;
